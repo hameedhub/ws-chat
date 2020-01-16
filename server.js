@@ -23,17 +23,18 @@ ws.sockets.on('connection', function(socket){
         ws.sockets.emit('socket count', socketCount)
     })
  
-    socket.on('Start of chat here', function(data){
+    socket.on('new chat', function(data){
        
         chats.push(data)
         ws.sockets.emit('new chat', data)
-        conn.query('INSERT INT0 chats (chat) VALUES (?)', data.chat)
+        console.log(data.chat);
+        conn.query('INSERT INTO chats (chat) VALUES (?)', data.chat)
     })
     
     if (! isInitChat) {
         conn.query('SELECT * FROM chats')
             .on('result', function(data){
-                conn.push(data)
+                chats.push(data)
             })
             .on('end', function(){
                 socket.emit('initial chat', chats)
