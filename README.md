@@ -6,6 +6,14 @@ Introduction on how to run the application.
 
 > Clone the repo and cd into the file directory
 
+>  MySQL Database configuration
+
+```shell
+- CREATE DATABASE chats-db
+CREATE TABLE `chats` ( `id` INT NOT NULL AUTO_INCREMENT , `chat` LONGTEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+```
+
 ```shell
 npm install --To install all dependencies 
 npm start   --To run the application
@@ -27,6 +35,7 @@ git clone https://github.com/hameedhub/ws-chat
 cd into the ws-chat folder
 cmd npm install
 ```
+
 This install all the required dependencies for the project
 
 ### Built with
