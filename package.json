@@ -1,0 +1,27 @@
+{
+  "name": "ws-chat",
+  "version": "1.0.0",
+  "description": "Web socket chat",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hameedhub/ws-chat.git"
+  },
+  "keywords": [
+    "Chat"
+  ],
+  "author": "Hameed Abdulrahaman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hameedhub/ws-chat/issues"
+  },
+  "homepage": "https://github.com/hameedhub/ws-chat#readme",
+  "dependencies": {
+    "mysql": "^2.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
