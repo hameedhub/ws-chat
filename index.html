@@ -1,11 +1,16 @@
 <script src="jquery.js"></script>
 <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+<script src="http://localhost:5000/siofu/client.js"></script>
+
 
 <script>
     $(document).ready(function(){
         var socket = io.connect('http://localhost:5000');
+
+        var siofu = new SocketIOFileUpload(socket);
+
         socket.on('initial chat', function(data){
-            console.log(data);
+            //console.log(data);
             var html = ''
             for (var i = 0; i < data.length; i++){
                 html += '<li>' + data[i].chat + '</li>'
@@ -13,22 +18,43 @@
             $('#chats').html(html)
         })
         socket.on('new chat', function(data){
-            $('#chats').append('<li>' + data.chat + '</li>')
+            $('#chats').append('<li>' + data.chat + '</li>');
+            if(data.image){
+                $('#chats').append('<img src="uploads/'+ data.image +'"/>')
+            }
         })
      
         socket.on('socket count', function(data){
             $('#usersConnected').html('Users connected: ' + data)
         })
-     
+
+      
+        //document.getElementById("file").addEventListener("click", siofu.prompt, false);
+        siofu.listenOnInput(document.getElementById("file"));
+
+        siofu.addEventListener("progress", function(event){
+            var percent = event.bytesLoaded / event.file.size * 100;
+            $("#progress").empty();
+            $("#progress").append(percent.toFixed(2), "%");
+        });
+
+        siofu.addEventListener("complete", function(event){
+            console.log(event.success);
+            console.log(event.file.name);
+            socket.emit('new chat', {chat: event.file.name, image: event.file.name })
+        });
+
+
         $('#form').submit(function(){
+            $('#progress').empty();
             $('#error').empty();
            var msg = $('#msg').val();
+
            if(msg.length == 0){
                $('#error').empty();
                $('#error').append('Error: Message can\'t be empty');
                return false;
            }
-           
             socket.emit('new chat', {chat: msg})
             return false;
         })
@@ -36,9 +62,10 @@
     </script>
      <div id="usersConnected"></div>
     <ul id="chats"></ul>
-    <form  id="form" action="chat">
+    <form  id="form" action="chat" >
         <input type="text" name="msg" id="msg" />
         <input type="submit" value="Send" />
         <br>
+        <input type="file" id="file" /> <div id="progress"> </div>
         <p id="error" style="color: red; "></p>
     </form>
