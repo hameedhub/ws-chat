@@ -16,7 +16,7 @@ CREATE TABLE `chats` ( `id` INT NOT NULL AUTO_INCREMENT , `chat` LONGTEXT NOT NU
 
 ```shell
 npm install --To install all dependencies 
-npm start   --To run the application
+npm start   --To run the server
 click index.html - To run the application
 ```
 
